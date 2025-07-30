@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhavya Chaturvedi - CV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .editable {
+            border: 2px dashed transparent;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: text;
+            position: relative;
+            min-height: 1em;
+        }
+        
+        .editable:hover {
+            border-color: #2a5298;
+            background-color: rgba(42, 82, 152, 0.1);
+        }
+        
+        .editable:focus {
+            outline: none;
+            border-color: #1e3c72;
+            background-color: rgba(30, 60, 114, 0.15);
+            box-shadow: 0 0 0 2px rgba(30, 60, 114, 0.2);
+        }
+        
+        .editable::before {
+            content: '✏️';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #2a5298;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        
+        .editable:hover::before {
+            opacity: 1;
+        }
+        
+        .edit-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .section-editable {
+            position: relative;
+        }
+        
+        .section-editable::after {
+            content: '✏️';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 0.8em;
+        }
+        
+        .section-editable:hover::after {
+            opacity: 0.7;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .cv-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .cv-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #00c9ff, #92fe9d, #ff006e, #8338ec);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="2" fill="white" opacity="0.1"/><circle cx="10" cy="10" r="1" fill="white" opacity="0.15"/><circle cx="50" cy="20" r="1.5" fill="white" opacity="0.1"/><circle cx="20" cy="50" r="1" fill="white" opacity="0.12"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .title {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+        
+        .specialization {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-top: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1e3c72;
+            border-bottom: 3px solid transparent;
+            background: linear-gradient(90deg, #1e3c72, #2a5298) padding-box,
+                       linear-gradient(90deg, #00c9ff, #92fe9d) border-box;
+            border-image: linear-gradient(90deg, #00c9ff, #92fe9d) 1;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #2a5298;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #444;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .summary-card::before {
+            content: '💡';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+        
+        .education-item, .domain-item, .skills-section {
+            margin-bottom: 25px;
+            padding: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .education-item::before, .domain-item::before, .skills-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #00c9ff, #92fe9d);
+        }
+        
+        .education-item:hover, .domain-item:hover, .skills-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-color: #2a5298;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .item-title {
+            font-weight: 700;
+            color: #1e3c72;
+            font-size: 1.2em;
+        }
+        
+        .item-subtitle {
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+            font-size: 1.05em;
+        }
+        
+        .item-date {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+        
+        .item-description {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+        
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .domain-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00c9ff, #92fe9d, #ff006e, #8338ec);
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .domain-card:hover::before {
+            opacity: 1;
+        }
+        
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .domain-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .domain-title {
+            font-weight: 700;
+            color: #1e3c72;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .domain-desc {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        .skills-category {
+            margin-bottom: 25px;
+        }
+        
+        .skill-category-title {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .skill-tag {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .skill-tag:hover::before {
+            left: 100%;
+        }
+        
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.4);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #00c9ff, #92fe9d);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 201, 255, 0.1), rgba(146, 254, 157, 0.1));
+            border: 2px solid rgba(0, 201, 255, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .highlight-title {
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .cv-container {
+                margin: 0;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .domain-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .cv-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .header::before {
+                display: none;
+            }
+            
+            .education-item:hover, .domain-item:hover, .skills-section:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-indicator">📝 Click on any text to edit</div>
+    <div class="cv-container">
+        <div class="header">
+            <h1 class="editable" contenteditable="true">Bhavya Chaturvedi</h1>
+            <div class="title editable" contenteditable="true">B.Tech Student - Computer Science Engineering</div>
+            <div class="specialization editable" contenteditable="true">Specialization: Data Science & IoT</div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span class="editable" contenteditable="true">chaturvedibhavya2005@email.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span class="editable" contenteditable="true">+91 XXXXX XXXXX</span>
+                </div>
+                <div class="contact-item">
+                    <span>🔗</span>
+                    <span class="editable" contenteditable="true">https://www.linkedin.com/in/bhavya-chaturvedi-851975371/</span>
+                </div>
+                <div class="contact-item">
+                    <span>📍</span>
+                    <span class="editable" contenteditable="true">Lucknow, India</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">Professional Summary</h2>
+                <div class="summary-card section-editable">
+                    <div class="editable" contenteditable="true">Motivated 2nd-year B.Tech Computer Science Engineering student specializing in Data Science and IoT technologies. Passionate about leveraging data-driven insights and intelligent automation to solve real-world problems. Strong foundation in programming and emerging technologies with hands-on experience in prompt engineering, machine learning, and automation systems.</div>
+                    <div class="status-badge">Fresher | Ready to Learn & Contribute</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Education</h2>
+                <div class="education-item">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-title editable" contenteditable="true">Bachelor of Technology</div>
+                            <div class="item-subtitle editable" contenteditable="true">Computer Science Engineering (Data Science)</div>
+                            <div style="color: #666; margin-top: 5px; font-size: 0.95em;" class="editable" contenteditable="true">Shri Ramswaroop College of Engineering and Management</div>
+                        </div>
+                        <div class="item-date editable" contenteditable="true">2024- 2028</div>
+                    </div>
+                    <div class="item-description">
+                        <span class="editable" contenteditable="true"><strong>Current Year:</strong> 2nd Year (4th Semester)</span><br>
+                        <span class="editable" contenteditable="true"><strong>Relevant Coursework:</strong> Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, Statistics for Data Science, Introduction to Machine Learning, IoT Fundamentals, Computer Networks</span>
+                    </div>
+                    <div class="highlight-box">
+                        <div class="highlight-title">Academic Focus</div>
+                        <div class="editable" contenteditable="true">Specializing in Data Science with emphasis on IoT applications, statistical analysis, and intelligent system design.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Domain Knowledge</h2>
+                <div class="domain-grid">
+                    <div class="domain-card">
+                        <span class="domain-icon">🤖</span>
+                        <div class="domain-title editable" contenteditable="true">Prompt Engineering</div>
+                        <div class="domain-desc editable" contenteditable="true">Crafting effective prompts for AI models, optimizing AI interactions, and developing conversational AI solutions</div>
+                    </div>
+                    
+                    <div class="domain-card">
+                        <span class="domain-icon">📊</span>
+                        <div class="domain-title editable" contenteditable="true">Data Science</div>
+                        <div class="domain-desc editable" contenteditable="true">Statistical analysis, data visualization, exploratory data analysis, and extracting insights from complex datasets</div>
+                    </div>
+                    
+                    <div class="domain-card">
+                        <span class="domain-icon">🧠</span>
+                        <div class="domain-title editable" contenteditable="true">Machine Learning</div>
+                        <div class="domain-desc editable" contenteditable="true">Supervised and unsupervised learning algorithms, model training, evaluation, and predictive analytics</div>
+                    </div>
+                    
+                    <div class="domain-card">
+                        <span class="domain-icon">⚙️</span>
+                        <div class="domain-title editable" contenteditable="true">Automation</div>
+                        <div class="domain-desc editable" contenteditable="true">Process automation, scripting, workflow optimization, and developing automated solutions for repetitive tasks</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="skills-section">
+                    <div class="skills-category">
+                        <div class="skill-category-title">
+                            <span>💻</span>
+                            <span>Programming Languages</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag editable" contenteditable="true">Python</span>
+                            <span class="skill-tag editable" contenteditable="true">C</span>
+                            <span class="skill-tag editable" contenteditable="true">C++</span>
+                            <span class="skill-tag editable" contenteditable="true">Java</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skills-category">
+                        <div class="skill-category-title">
+                            <span>📈</span>
+                            <span>Data Science & ML</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag editable" contenteditable="true">NumPy</span>
+                            <span class="skill-tag editable" contenteditable="true">Pandas</span>
+                            <span class="skill-tag editable" contenteditable="true">Matplotlib</span>
+                            <span class="skill-tag editable" contenteditable="true">Scikit-learn</span>
+                            <span class="skill-tag editable" contenteditable="true">Jupyter</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skills-category">
+                        <div class="skill-category-title">
+                            <span>🌐</span>
+                            <span>IoT & Automation</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Arduino</span>
+                            <span class="skill-tag">Raspberry Pi</span>
+                            <span class="skill-tag">Sensors</span>
+                            <span class="skill-tag">MQTT</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skills-category">
+                        <div class="skill-category-title">
+                            <span>🛠️</span>
+                            <span>Tools & Technologies</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">VS Code</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">Linux</span>
+                            <span class="skill-tag">Google Colab</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skills-category">
+                        <div class="skill-category-title">
+                            <span>💡</span>
+                            <span>Core Competencies</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Problem Solving</span>
+                            <span class="skill-tag">Algorithm Design</span>
+                            <span class="skill-tag">Data Analysis</span>
+                            <span class="skill-tag">Statistical Modeling</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Certifications & Learning</h2>
+                <div class="education-item">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-title">Continuous Learning Journey</div>
+                            <div class="item-subtitle">Self-Directed Professional Development</div>
+                        </div>
+                        <div class="item-date">Ongoing</div>
+                    </div>
+                    <div class="item-description">
+                        Actively pursuing online courses and certifications in Data Science, Machine Learning, and IoT development. Committed to staying updated with the latest industry trends and best practices through continuous learning and hands-on practice.
+                    </div>
+                    <div class="highlight-box">
+                        <div class="highlight-title">Learning Focus Areas</div>
+                        Advanced Python programming, Deep Learning fundamentals, IoT project development, Cloud platforms (AWS/Azure), and AI/ML model deployment.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Career Objective</h2>
+                <div class="summary-card">
+                    Seeking opportunities to apply my knowledge in Data Science technologies in a challenging role where I can contribute to innovative projects while continuing to learn and grow. Eager to work with experienced professionals in developing intelligent solutions that bridge the gap between data insights and automated systems.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make all skill tags editable
+            const allSkillTags = document.querySelectorAll('.skill-tag');
+            allSkillTags.forEach(tag => {
+                if (!tag.classList.contains('editable')) {
+                    tag.classList.add('editable');
+                    tag.setAttribute('contenteditable', 'true');
+                }
+            });
+            
+            // Enhanced editing functionality
+            const editableElements = document.querySelectorAll('.editable');
+            
+            editableElements.forEach(element => {
+                // Store original content
+                element.addEventListener('focus', function() {
+                    this.dataset.original = this.textContent || this.innerHTML;
+                    this.style.minHeight = '1.2em';
+                });
+                
+                // Handle keyboard shortcuts
+                element.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.blur();
+                        showSaveMessage();
+                    }
+                    if (e.key === 'Escape') {
+                        this.innerHTML = this.dataset.original;
+                        this.blur();
+                    }
+                });
+                
+                // Visual feedback on edit
+                element.addEventListener('input', function() {
+                    showSaveMessage();
+                });
+                
+                // Remove focus styling on blur
+                element.addEventListener('blur', function() {
+                    this.style.minHeight = '';
+                });
+            });
+            
+            function showSaveMessage() {
+                const indicator = document.querySelector('.edit-indicator');
+                indicator.innerHTML = '💾 Changes saved! Right-click page → Save As to keep changes';
+                indicator.style.background = 'linear-gradient(135deg, #00c9ff, #92fe9d)';
+                indicator.style.animation = 'pulse 2s infinite';
+            }
+            
+            // Add pulse animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                    100% { transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Initial animation for edit indicator
+            setTimeout(() => {
+                const indicator = document.querySelector('.edit-indicator');
+                indicator.style.transform = 'translateY(-5px)';
+                setTimeout(() => {
+                    indicator.style.transform = 'translateY(0)';
+                }, 500);
+            }, 1000);
+            
+            console.log('CV is now fully editable! Click on any text to edit.');
+        });
+    </script>
+</body>
+</html>
